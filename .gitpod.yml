@@ -1,0 +1,7 @@
+tasks:
+  - command: ./gradlew build && java -jar build/libs/gs-rest-service-0.1.0.jar
+
+# Ports to expose on workspace startup (optional)
+ports:
+  - port: 8080
+    onOpen: open-preview

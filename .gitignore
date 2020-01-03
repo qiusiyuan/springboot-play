@@ -5,6 +5,7 @@
 .gradle
 /build
 
+
 #common
 *.project
 *.settings
@@ -21,6 +22,7 @@
 
 # Package Files #
 *.jar
+!gradle-wrapper.jar
 *.war
 *.nar
 *.ear

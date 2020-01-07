@@ -28,5 +28,6 @@ targetCompatibility = 1.8
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    
+    compile group: 'de.codecentric', name: 'spring-boot-admin-starter-server', version: '2.2.0'
 }

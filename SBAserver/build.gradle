@@ -14,12 +14,13 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-}
 
+    implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-server', version: '2.2.0'
+}
 test {
 	useJUnitPlatform()
 }

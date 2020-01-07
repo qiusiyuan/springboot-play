@@ -1,4 +1,4 @@
-package com.hello;
+package com.qiusiyuan.helloworld;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

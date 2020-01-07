@@ -1,4 +1,4 @@
-package com.hello;
+package com.qiusiyuan.helloworld;
 
 public class Greeting {
 

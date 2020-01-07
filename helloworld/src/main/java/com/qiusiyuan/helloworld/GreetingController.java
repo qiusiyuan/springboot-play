@@ -1,4 +1,4 @@
-package com.hello;
+package com.qiusiyuan.helloworld;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;

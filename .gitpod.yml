@@ -1,5 +1,6 @@
 tasks:
-  - command: cd helloworld && ./gradlew build && cd ../SBAserver && ./gradlew build
+  - command: cd helloworld && ./gradlew build
+  - command: cd ../SBAserver && ./gradlew build
 
 # Ports to expose on workspace startup (optional)
 # ports:

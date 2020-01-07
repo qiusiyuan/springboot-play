@@ -18,7 +18,7 @@ public class GreetingController {
               String.format(template, name));
   }
 
-  @RequestMapping("/messege")
+  @RequestMapping("/message")
   public Greeting messege() {
     final String uri = "https://gturnquist-quoters.cfapps.io/api/random";
      

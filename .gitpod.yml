@@ -1,7 +1,7 @@
 tasks:
-  - command: ./gradlew build
+  - command: cd helloworld && ./gradlew build && cd ../SBAserver && ./gradlew build
 
 # Ports to expose on workspace startup (optional)
-ports:
-  - port: 8081
-    onOpen: open-preview
+# ports:
+#   - port: 8081
+#     onOpen: open-preview

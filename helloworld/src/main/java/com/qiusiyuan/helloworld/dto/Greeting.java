@@ -1,4 +1,4 @@
-package com.qiusiyuan.helloworld;
+package com.qiusiyuan.helloworld.dto;
 
 public class Greeting {
 

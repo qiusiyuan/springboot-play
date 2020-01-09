@@ -1,4 +1,4 @@
-package com.qiusiyuan.helloworld;
+package com.qiusiyuan.helloworld.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

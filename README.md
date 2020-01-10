@@ -2,6 +2,8 @@
 playground spring boot project
 contains multiple spring boot projects
 
+require java 8 to run
+
 # Run
 1. Build & Run:
 ```

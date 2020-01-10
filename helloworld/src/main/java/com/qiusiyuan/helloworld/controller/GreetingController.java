@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 
 import com.qiusiyuan.helloworld.dto.Greeting;
 import com.qiusiyuan.helloworld.dto.Quote;
+import com.qiusiyuan.helloworld.dto.user.User;
 
 @RestController
 public class GreetingController {
@@ -19,7 +20,7 @@ public class GreetingController {
   @RequestMapping("/greeting")
   public Greeting greeting() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String name =  (String)auth.getPrincipal();
+    String name =  ((User)(auth.getPrincipal())).getUsername();
     return new Greeting(counter.incrementAndGet(),
               String.format(template, name));
   }

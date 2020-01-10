@@ -13,3 +13,12 @@ require java 8 to run
 ```
 ./gradlew bootRun
 ```
+
+# Change java version in gitpod
+```
+sdk list java
+```
+
+```
+sdk install java 8.0.232.hs-adpt
+```

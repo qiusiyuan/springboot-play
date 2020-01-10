@@ -10,7 +10,7 @@ import java.util.List;
 
 public class User implements UserDetails {
 
-    private static final long serialVersionUID = -5625635588908941275L;
+    private static final long serialVersionUID = -1L;
     
     private Long id;
 
@@ -83,4 +83,11 @@ public class User implements UserDetails {
         return password;
     }
 
+    public String toString(){
+        String body = this.getUsername() + ":" + this.getPassword();
+        for (Role role : this.roles){
+            body += "," + role.getName();
+        }
+        return body;
+    }
 }

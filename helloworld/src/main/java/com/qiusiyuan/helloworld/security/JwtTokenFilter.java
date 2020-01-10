@@ -2,12 +2,12 @@ package com.qiusiyuan.helloworld.security;
 
 import com.qiusiyuan.helloworld.config.Const;
 import com.qiusiyuan.helloworld.util.JwtTokenUtil;
+import com.qiusiyuan.helloworld.dao.InMemoryDao;
+import com.qiusiyuan.helloworld.dto.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private InMemoryDao inMemoryDao;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -34,7 +34,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             final String authToken = authHeader.substring( Const.TOKEN_PREFIX.length() );
             String username = jwtTokenUtil.getUsernameFromToken(authToken);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.inMemoryUserDetailsManager.loadUserByUsername(username);
+                User userDetails = this.inMemoryDao.loadUserByUsername(username);
                 	if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());

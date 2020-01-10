@@ -1,7 +1,5 @@
 package com.qiusiyuan.helloworld.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.qiusiyuan.helloworld.security.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +12,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import com.qiusiyuan.helloworld.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +22,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private UserService userService;
 
     @Bean
     public JwtTokenFilter authenticationTokenFilterBean() throws Exception {
@@ -39,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
-        auth.userDetailsService( inMemoryUserDetailsManager ).passwordEncoder( new BCryptPasswordEncoder() );
+        auth.userDetailsService( userService ).passwordEncoder( new BCryptPasswordEncoder() );
     }
 
     @Override

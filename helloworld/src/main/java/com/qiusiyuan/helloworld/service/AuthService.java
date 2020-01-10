@@ -1,6 +1,5 @@
 package com.qiusiyuan.helloworld.service;
 
-import com.qiusiyuan.helloworld.config.Const;
 import com.qiusiyuan.helloworld.dto.user.User;
 // import cn.codesheep.springbt_security_jwt.repository.UserRepository;
 import com.qiusiyuan.helloworld.util.JwtTokenUtil;
@@ -10,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +20,11 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserRepository userRepository;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
-    // 登录
     public String login( String username, String password ) {
 
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken( username, password );
@@ -37,21 +32,22 @@ public class AuthService {
         final Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername( username );
+        final UserDetails userDetails = inMemoryUserDetailsManager.loadUserByUsername( username );
         final String token = jwtTokenUtil.generateToken(userDetails);
         return token;
     }
 
-    // 注册
     public User register( User userToAdd ) {
 
         final String username = userToAdd.getUsername();
-        if( userRepository.findByUsername(username)!=null ) {
+        boolean flag = inMemoryUserDetailsManager.userExists(username);
+        if( flag ) {
             return null;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         final String rawPassword = userToAdd.getPassword();
         userToAdd.setPassword( encoder.encode(rawPassword) );
-        return userRepository.save(userToAdd);
+        inMemoryUserDetailsManager.createUser(userToAdd);
+        return userToAdd;
     }
 }

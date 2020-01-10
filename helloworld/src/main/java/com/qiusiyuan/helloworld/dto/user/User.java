@@ -44,8 +44,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    // 下面为实现UserDetails而需要的重写方法！
-
     @Override
     public boolean isAccountNonExpired() {
         return true;

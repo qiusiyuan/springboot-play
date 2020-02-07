@@ -42,11 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure( HttpSecurity httpSecurity ) throws Exception {
 
-        httpSecurity.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        httpSecurity.csrf().ignoringAntMatchers("/authentication/**").and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() // csrf enabled
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/authentication/**").permitAll()   
+                .antMatchers(HttpMethod.POST, "/authentication/**").permitAll()
                 .antMatchers("/actuator/**").permitAll() 
                 .antMatchers("/message").hasAuthority("ADMIN")
                 .anyRequest().hasAnyAuthority("ADMIN", "USER");

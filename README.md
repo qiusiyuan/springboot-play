@@ -20,5 +20,5 @@ sdk list java
 ```
 
 ```
-sdk install java 8.0.232.hs-adpt
+sdk install java 8.0.242.hs-adpt
 ```

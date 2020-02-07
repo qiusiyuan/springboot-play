@@ -1,5 +1,8 @@
 package com.qiusiyuan.helloworld.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import com.qiusiyuan.helloworld.dto.user.User;
 import com.qiusiyuan.helloworld.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,19 @@ public class JwtTokenAuthController {
     private AuthService authService;
 
     @RequestMapping(value = "/authentication/login", method = RequestMethod.POST)
-    public String createToken( String username,String password ) throws AuthenticationException {
-        return authService.login( username, password );
+    public String createToken( String username,String password, HttpServletResponse response) throws AuthenticationException {
+        String jwtToken = authService.login( username, password );
+        if (jwtToken == null){
+            return null;
+        }
+        Cookie cookie = new Cookie("access_token", jwtToken);
+        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setHttpOnly(true); // for XSS attack
+        cookie.setPath("/"); // allow global check
+        //cookie.setSecure(true); // for https
+        response.addCookie(cookie);
+
+        return jwtToken;
     }
 
     @RequestMapping(value = "/authentication/register", method = RequestMethod.POST)

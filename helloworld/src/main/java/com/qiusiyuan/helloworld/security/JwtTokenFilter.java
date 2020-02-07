@@ -1,6 +1,6 @@
 package com.qiusiyuan.helloworld.security;
 
-import com.qiusiyuan.helloworld.config.Const;
+// import com.qiusiyuan.helloworld.config.Const;
 import com.qiusiyuan.helloworld.util.JwtTokenUtil;
 import com.qiusiyuan.helloworld.dao.InMemoryDao;
 import com.qiusiyuan.helloworld.dto.user.User;
@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.springframework.web.util.WebUtils;
+import javax.servlet.http.Cookie;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -26,12 +28,34 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    // @Override
+    // protected void doFilterInternal ( HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+
+    //     String authHeader = request.getHeader( Const.HEADER_STRING );
+    //     if (authHeader != null && authHeader.startsWith( Const.TOKEN_PREFIX )) {
+    //         final String authToken = authHeader.substring( Const.TOKEN_PREFIX.length() );
+    //         String username = jwtTokenUtil.getUsernameFromToken(authToken);
+    //         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+    //             User userDetails = this.inMemoryDao.loadUserByUsername(username);
+    //             	if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+    //                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+    //                             userDetails, null, userDetails.getAuthorities());
+    //                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+    //                             request));
+    //                     SecurityContextHolder.getContext().setAuthentication(authentication);
+    //                 }
+    //         }
+    //     }
+    //     chain.doFilter(request, response);
+    // }
+
     @Override
     protected void doFilterInternal ( HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        String authHeader = request.getHeader( Const.HEADER_STRING );
-        if (authHeader != null && authHeader.startsWith( Const.TOKEN_PREFIX )) {
-            final String authToken = authHeader.substring( Const.TOKEN_PREFIX.length() );
+        Cookie tokenCookie = WebUtils.getCookie(request, "access_token");
+       
+        if (tokenCookie != null) {
+            final String authToken = tokenCookie.getValue();
             String username = jwtTokenUtil.getUsernameFromToken(authToken);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User userDetails = this.inMemoryDao.loadUserByUsername(username);
